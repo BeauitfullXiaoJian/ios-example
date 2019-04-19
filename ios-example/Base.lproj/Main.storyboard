@@ -29,7 +29,7 @@
         <!--Dashboard Controller-->
         <scene sceneID="arg-f5-WFe">
             <objects>
-                <viewController id="Vpo-Wd-I3q" userLabel="Dashboard Controller" customClass="DashboardViewController" customModule="ios_example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DashboardViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Vpo-Wd-I3q" userLabel="Dashboard Controller" customClass="DashboardViewController" customModule="ios_example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2Xv-6b-k9i">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -95,7 +95,7 @@
         <!--Home Controller-->
         <scene sceneID="Stv-Bj-O4n">
             <objects>
-                <viewController id="FGB-7M-hAG" userLabel="Home Controller" customClass="HomeViewController" customModule="ios_example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FGB-7M-hAG" userLabel="Home Controller" customClass="HomeViewController" customModule="ios_example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bYw-6t-Dbn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -117,10 +117,19 @@
                     <navigationItem key="navigationItem" title="首页" id="OrU-La-KVh"/>
                     <connections>
                         <outlet property="mTableView" destination="2ji-zK-9Ln" id="A30-iV-Eob"/>
-                        <segue destination="tY7-gc-TW6" kind="show" id="3qr-41-RXi"/>
+                        <outlet property="searchDisplayController" destination="yf9-dB-rJd" id="yL7-8h-SwF"/>
+                        <segue destination="tY7-gc-TW6" kind="show" identifier="DefaultSegue" id="3qr-41-RXi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Olt-jM-iL8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="yf9-dB-rJd">
+                    <connections>
+                        <outlet property="delegate" destination="FGB-7M-hAG" id="Xcz-dv-thp"/>
+                        <outlet property="searchContentsController" destination="FGB-7M-hAG" id="XV8-y2-CMV"/>
+                        <outlet property="searchResultsDataSource" destination="FGB-7M-hAG" id="Tvb-f4-ii2"/>
+                        <outlet property="searchResultsDelegate" destination="FGB-7M-hAG" id="7qR-Gg-nw6"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="-3650.4000000000001" y="-5425.6371814092954"/>
         </scene>

@@ -7,14 +7,14 @@
 //
 
 import UIKit
-import Alamofire
+import SwiftyRequest
 import SwiftyJSON
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     @IBOutlet weak var mTableView: UITableView!
     
-    var dataRows:JSON = JSON.null
+    var dataRows: SwiftyJSON.JSON = SwiftyJSON.JSON.null
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +22,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func initView(){
+        let searchCtrl = UISearchController()
+        searchCtrl.dimsBackgroundDuringPresentation = false
+        searchCtrl.obscuresBackgroundDuringPresentation = false
+        searchCtrl.hidesNavigationBarDuringPresentation = false
+        searchCtrl.searchBar.placeholder = "搜索城市"
+        searchCtrl.searchBar.sizeToFit()
+        mTableView.tableHeaderView = searchCtrl.searchBar
         mTableView.refreshControl = UIRefreshControl()
         mTableView.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         mTableView.refreshControl?.beginRefreshing()
@@ -32,17 +39,23 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func handleRefresh(){
-        AF.request("https://www.cool1024.com/china.json").responseJSON{ response in
-            if let data = response.data {
+        let request = RestRequest(method: .get, url: "https://www.cool1024.com/china.json")
+        request.responseData{ res in
+            switch res.result {
+            case .success(let result):
+                print(result)
                 do{
-                    self.dataRows = try JSON(data:data)
-                    DispatchQueue.main.async {
-                        self.mTableView.reloadData()
-                        self.mTableView.refreshControl?.endRefreshing()
-                    }
+                    self.dataRows = try SwiftyJSON.JSON(data: result)
                 }catch{
                     print(error)
                 }
+            case .failure(let error):
+                print("请求失败",error)
+            }
+            
+            DispatchQueue.main.async {
+                self.mTableView.reloadData()
+                self.mTableView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -74,6 +87,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as UITableViewCell
         let row = dataRows[indexPath.section]["children"][indexPath.row]
         cell.textLabel?.text = row["text"].string
+        cell.imageView?.image = UIImage(named:  "IconHome")
         return cell
     }
 }

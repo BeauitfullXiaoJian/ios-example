@@ -6,6 +6,7 @@ target 'ios-example' do
   use_frameworks!
 
   # Pods for ios-example
-  pod 'Alamofire', '~> 5.0.0-beta.5'
+  # pod 'Alamofire', '~> 5.0.0-beta.5'
   pod 'SwiftyJSON', '~> 4.0'
+  pod 'SwiftyRequest', '~> 2.0.3'
 end
